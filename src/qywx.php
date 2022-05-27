@@ -62,7 +62,7 @@ class qywx
         $msg_sign = $_GET['msg_signature'];
         $timeStamp = $_GET['timestamp'];
         $nonce = $_GET['nonce'];
-        $data = $this->pc->DecryptMsg($msg_sign, $timeStamp, $nonce, json_encode($_POST), $sEchoStr);
+        $data = $this->pc->DecryptMsg($msg_sign, $timeStamp, $nonce, $data['post_json'], $sEchoStr);
         if ($data == 0) {
             return $sEchoStr;
         } else {
