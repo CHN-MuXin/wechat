@@ -66,7 +66,7 @@ class qywx
         if ($data == 0) {
             return $sEchoStr;
         } else {
-            return false;
+            return $data;
         }
     }
 }
