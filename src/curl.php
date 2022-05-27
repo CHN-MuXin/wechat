@@ -96,7 +96,6 @@ class curl
      * @return bool|string
      */
     public static function get($url,$headers=[],$cookie=[],$timeout=5,$options=[]){
-        $options[CURLOPT_HEADER]=1;
         $options[CURLOPT_RETURNTRANSFER]=1;
         $option[CURLOPT_TIMEOUT]= $timeout;
         if( count($headers) >= 1 )
@@ -133,7 +132,6 @@ class curl
      * @return void
      */
     public static function get_raw($url,$options=[]){
-        $options[CURLOPT_HEADER]=1;
         $options[CURLOPT_RETURNTRANSFER]=1;
         return self::raw($url,$options);
     }

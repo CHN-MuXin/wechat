@@ -85,6 +85,7 @@ class wechat {
     * @return string
     */
     public function server(){
+
         if($this->checkSignature())
         {
             //明文模式
@@ -93,6 +94,8 @@ class wechat {
             }else{
                 $this->pc = new WXBizMsgCrypt($this->token,$this->encodingAesKey,$this->appid);
                 $data = $this->decryptData($this->post);
+                if(!$data)
+                    return '';
             }
             return $this->check_msg_type($data);
         }else{
@@ -133,7 +136,7 @@ class wechat {
      * @return string
      */
     public function api($path,$type=0,$data=[]){
-        $url=$this->api.$path.'?'.$this->getAccessToken();
+        $url=$this->api.$path.'?access_token='.$this->getAccessToken();
         if($type){
             if( $data && is_array($data) )
                 $data = json_encode($data);
@@ -177,15 +180,12 @@ class wechat {
         $msg = '';
         $errCode = $this->pc->decryptMsg($msg_sign, $timeStamp, $nonce, $from_xml, $msg);
         if ($errCode == 0) {
-
             try {
-                $xml = new \DOMDocument();
-                $msg = $xml->loadXML($msg);
-                if($msg){
-                    return $msg;
+                $xml_data =simplexml_load_string($msg, 'SimpleXMLElement', LIBXML_NOCDATA);
+                if($xml_data){
+                    return $xml_data;
                 }
             } catch (\Exception $e) {
-                //print $e . "\n";
                 return false;
             }
 
@@ -229,8 +229,8 @@ class wechat {
             $function_name = "msg_default";
         
         //调用相应处理函数
-        call_user_func(array($this,$function_name),$data);
-        
+        return call_user_func(array($this,$function_name),$data);
+
     }
 
 
