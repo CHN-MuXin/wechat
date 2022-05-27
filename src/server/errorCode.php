@@ -1,5 +1,7 @@
 <?php
 
+namespace muxin\wechat\server;
+
 /**
  * error code 说明.
  * <ul>

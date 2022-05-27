@@ -1,6 +1,6 @@
 <?php
 
-include_once __DIR__.DIRECTORY_SEPARATOR."errorCode.php";
+namespace muxin\wechat\server;
 
 /**
  * PKCS7Encoder class
@@ -93,7 +93,7 @@ class Prpcrypt
             //print(base64_encode($encrypted));
             //使用BASE64对加密后的字符串进行编码
             return array(ErrorCode::$OK, base64_encode($encrypted));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             //print $e;
             return array(ErrorCode::$EncryptAESError, null);
         }
@@ -118,7 +118,7 @@ class Prpcrypt
             $decrypted = mdecrypt_generic($module, $ciphertext_dec);
             mcrypt_generic_deinit($module);
             mcrypt_module_close($module);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return array(ErrorCode::$DecryptAESError, null);
         }
 
@@ -135,7 +135,7 @@ class Prpcrypt
             $xml_len = $len_list[1];
             $xml_content = substr($content, 4, $xml_len);
             $from_appid = substr($content, $xml_len + 4);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             //print $e;
             return array(ErrorCode::$IllegalBuffer, null);
         }

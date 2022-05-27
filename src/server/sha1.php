@@ -1,6 +1,6 @@
 <?php
 
-include_once __DIR__.DIRECTORY_SEPARATOR."errorCode.php";
+namespace muxin\wechat\server;
 
 /**
  * SHA1 class
@@ -24,7 +24,7 @@ class SHA1
             sort($array, SORT_STRING);
             $str = implode($array);
             return array(ErrorCode::$OK, sha1($str));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             //print $e . "\n";
             return array(ErrorCode::$ComputeSignatureError, null);
         }

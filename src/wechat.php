@@ -2,6 +2,8 @@
 
 namespace muxin\wechat;
 
+use muxin\wechat\server\WXBizMsgCrypt;
+
 /**
  * 微信公众平台类
  */
@@ -45,7 +47,7 @@ class wechat {
     /**
      * 加密类变量
      *
-     * @var \WXBizMsgCrypt
+     * @var WXBizMsgCrypt
     */
     public $pc;
 
@@ -89,7 +91,7 @@ class wechat {
             if($this->mode == 0){
                 $data = $this->post;
             }else{
-                $this->pc = new \WXBizMsgCrypt($this->token,$this->encodingAesKey,$this->appid);
+                $this->pc = new WXBizMsgCrypt($this->token,$this->encodingAesKey,$this->appid);
                 $data = $this->decryptData($this->post);
             }
             return $this->check_msg_type($data);
@@ -175,10 +177,20 @@ class wechat {
         $msg = '';
         $errCode = $this->pc->decryptMsg($msg_sign, $timeStamp, $nonce, $from_xml, $msg);
         if ($errCode == 0) {
-            return $msg;
-        } else {
-            return false;
+
+            try {
+                $xml = new \DOMDocument();
+                $msg = $xml->loadXML($msg);
+                if($msg){
+                    return $msg;
+                }
+            } catch (\Exception $e) {
+                //print $e . "\n";
+                return false;
+            }
+
         }
+        return false;
     }
 
     /**

@@ -6,11 +6,7 @@
  * @copyright Copyright (c) 1998-2014 Tencent Inc.
  */
 
-
-include_once __DIR__.DIRECTORY_SEPARATOR."sha1.php";
-include_once __DIR__.DIRECTORY_SEPARATOR."xmlparse.php";
-include_once __DIR__.DIRECTORY_SEPARATOR."pkcs7Encoder.php";
-include_once __DIR__.DIRECTORY_SEPARATOR."errorCode.php";
+namespace muxin\wechat\server;
 
 /**
  * 1.第三方回复加密消息给公众平台；
