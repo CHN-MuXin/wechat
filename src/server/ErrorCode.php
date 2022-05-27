@@ -32,6 +32,7 @@ class ErrorCode
     public static $EncodeBase64Error = -40009;
     public static $DecodeBase64Error = -40010;
     public static $GenReturnXmlError = -40011;
+    public static $ValidateCorpidError = -40005;
 }
 
 ?>
