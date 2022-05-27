@@ -169,9 +169,9 @@ class wechat {
     public function decryptData($data){
         $encrypt = $data['Encrypt'];
         $ToUserName = $data['ToUserName'];
-        $msg_sign=$_GET['msg_signature'];
-        $timeStamp=$_GET['timestamp'];
-        $nonce=$_GET['nonce'];
+        $msg_sign=$this->get['msg_signature'];
+        $timeStamp=$this->get['timestamp'];
+        $nonce=$this->get['nonce'];
         $format = "<xml><ToUserName><![CDATA[%s]]></ToUserName><Encrypt><![CDATA[%s]]></Encrypt></xml>";
         $from_xml = sprintf($format, $ToUserName , $encrypt);
         $msg = '';
@@ -236,17 +236,9 @@ class wechat {
 
     //消息默认处理函数
     public function msg_default ($data){
-        /*
-        $time=time();
-        $file=fopen("default_log.txt","a+");
-        fwrite($file,file_get_contents("php://input")."\r\n");
-        fclose($file);
-        return false;*/
-        
         //服务器验证
-        $echoStr = $_GET["echostr"];
-        echo $echoStr;
-        return true;
+        $echoStr = $this->get["echostr"];
+        return $echoStr;
     }
     
     //文本信息 text
