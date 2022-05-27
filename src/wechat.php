@@ -97,7 +97,7 @@ class wechat {
                     $data = $this->decryptData($this->post);
                 }
             } catch (\Throwable $th) {
-                //throw $th;
+                $data=null;
             }
 
             return $this->check_msg_type($data);
