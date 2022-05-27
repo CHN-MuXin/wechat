@@ -247,7 +247,11 @@ class wechat {
     //消息默认处理函数
     public function msg_default ($data){
         //服务器验证
-        $echoStr = $this->get["echostr"];
+        try {
+            $echoStr = $this->get["echostr"];
+        } catch (\Throwable $th) {
+            $echoStr='';
+        }
         return $echoStr;
     }
     
