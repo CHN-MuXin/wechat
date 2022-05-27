@@ -2,8 +2,6 @@
 
 namespace muxin\wechat;
 
-include_once __DIR__.DIRECTORY_SEPARATOR.'server'.DIRECTORY_SEPARATOR."wxBizMsgCrypt.php";
-
 /**
  * 微信公众平台类
  */
