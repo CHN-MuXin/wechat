@@ -88,15 +88,18 @@ class wechat {
 
         if($this->checkSignature())
         {
-            //明文模式
-            if($this->mode == 0){
-                $data = $this->post;
-            }else{
-                $this->pc = new WXBizMsgCrypt($this->token,$this->encodingAesKey,$this->appid);
-                $data = $this->decryptData($this->post);
-                if(!$data)
-                    return '';
+            try {
+                //明文模式
+                if($this->mode == 0){
+                    $data = $this->post;
+                }else{
+                    $this->pc = new WXBizMsgCrypt($this->token,$this->encodingAesKey,$this->appid);
+                    $data = $this->decryptData($this->post);
+                }
+            } catch (\Throwable $th) {
+                //throw $th;
             }
+
             return $this->check_msg_type($data);
         }else{
             return '';
@@ -152,16 +155,18 @@ class wechat {
     public function checkSignature(){
         if (empty($this->token))
             throw new \Exception('TOKEN 没有设置!');
-        
-        $signature = $this->get['signature'];
-        $timestamp = $this->get['timestamp'];
-        $nonce = $this->get["nonce"];
-          $token = $this->token;
-        $tmpArr = array($token, $timestamp, $nonce);
-        sort($tmpArr, SORT_STRING);
-        $tmpStr = implode( $tmpArr );
-        $tmpStr = sha1( $tmpStr );
-        
+        try {
+            $signature = $this->get['signature'];
+            $timestamp = $this->get['timestamp'];
+            $nonce = $this->get["nonce"];
+              $token = $this->token;
+            $tmpArr = array($token, $timestamp, $nonce);
+            sort($tmpArr, SORT_STRING);
+            $tmpStr = implode( $tmpArr );
+            $tmpStr = sha1( $tmpStr );
+        } catch (\Throwable $th) {
+            return false;
+        }
         if( $tmpStr == $signature )
             return true;
         else
@@ -214,19 +219,24 @@ class wechat {
      * 处理服务器事件路由
      *
      * @param object $data
-     * @return void
+     * @return string
     */
     public function check_msg_type($data){
-        //路由函数名生成
-        $function_name = 'msg_'.$data->MsgType;
+        try {
+            //路由函数名生成
+            $function_name = 'msg_'.$data->MsgType;
 
-        //事件推送路由函数名
-        if( $data->MsgType == 'event' )
-            $function_name = 'event_'.$data->Event;
-        
-        //判断函数是否定义
-        if(! method_exists($this,$function_name))
+            //事件推送路由函数名
+            if( $data->MsgType == 'event' )
+                $function_name = 'event_'.$data->Event;
+            
+            //判断函数是否定义
+            if(! method_exists($this,$function_name))
+                $function_name = "msg_default";
+        } catch (\Throwable $th) {
             $function_name = "msg_default";
+        }
+
         
         //调用相应处理函数
         return call_user_func(array($this,$function_name),$data);
