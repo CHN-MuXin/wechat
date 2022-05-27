@@ -56,7 +56,7 @@ class qywx
     }
 
     //解密回调数据
-    public function decryptData($data)
+    public function decryptData()
     {
         $this->pc = new server\QYWXBizMsgCrypt($this->token, $this->encodingAesKey, $this->corpId);
         $msg_sign = $this->get['msg_signature'];
