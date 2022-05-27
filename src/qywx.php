@@ -59,10 +59,10 @@ class qywx
     public function decryptData($data)
     {
         $this->pc = new server\QYWXBizMsgCrypt($this->token, $this->encodingAesKey, $this->corpId);
-        $msg_sign = $_GET['msg_signature'];
-        $timeStamp = $_GET['timestamp'];
-        $nonce = $_GET['nonce'];
-        $data = $this->pc->DecryptMsg($msg_sign, $timeStamp, $nonce, $data['post_json'], $sEchoStr);
+        $msg_sign = $this->get['msg_signature'];
+        $timeStamp = $this->get['timestamp'];
+        $nonce = $this->get['nonce'];
+        $data = $this->pc->DecryptMsg($msg_sign, $timeStamp, $nonce, json_encode($this->post), $sEchoStr);
         if ($data == 0) {
             return $sEchoStr;
         } else {
