@@ -1,0 +1,11 @@
+{
+    "name": "muxin/wechat",
+    "description": "简易的微信类封装",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "muxin\\wechat\\": "src/"
+        }
+    },
+    "require": {}
+}
