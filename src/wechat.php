@@ -186,9 +186,15 @@ class wechat {
         $errCode = $this->pc->decryptMsg($msg_sign, $timeStamp, $nonce, $from_xml, $msg);
         if ($errCode == 0) {
             try {
-                $xml_data =simplexml_load_string($msg, 'SimpleXMLElement', LIBXML_NOCDATA);
-                if($xml_data){
-                    return $xml_data;
+                $xml_parser = xml_parser_create();
+                if(!xml_parse($xml_parser,$msg,true)){
+                    $data =  json_decode($msg);
+                }else{
+                    $data =  simplexml_load_string($msg, 'SimpleXMLElement', LIBXML_NOCDATA);
+                }
+                xml_parser_free($xml_parser);
+                if($data){
+                    return $data;
                 }
             } catch (\Exception $e) {
                 return false;
