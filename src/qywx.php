@@ -87,7 +87,6 @@ class qywx
         }
 
         $data = $this->pc->DecryptMsg($msg_sign, $timeStamp, $nonce, json_encode($this->post), $sEchoStr);
-        return $sEchoStr;
         if ($data == 0) {
             return $sEchoStr;
         } else {
