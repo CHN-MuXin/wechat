@@ -142,7 +142,7 @@ class wechat {
         $url=$this->api.$path.'?access_token='.$this->getAccessToken();
         if($type){
             if( $data && is_array($data) )
-                $data = json_encode($data);
+                $data = json_encode($data,JSON_UNESCAPED_UNICODE);
             return curl::post($url,$data);
         }else{
             if($data && is_array($data))
