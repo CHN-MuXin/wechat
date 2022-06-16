@@ -123,10 +123,11 @@ class wechat {
 
     /**
      * 获取 access_token
+     * @param mixed $name 一个没有意义的标识 主要是注解缓存区分
      * 如果要做缓存应该重写此类 使用 $this->accessToken()获取最新accessToken
      * @return string access_token
      */
-    public function getAccessToken(){
+    public function getAccessToken($name=''){
         $token = $this->accessToken();
         return $token['access_token'];
     }
