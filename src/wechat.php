@@ -140,7 +140,7 @@ class wechat {
      * @return string
      */
     public function api($path,$type=0,$data=[]){
-        $url=$this->api.$path.'?access_token='.$this->getAccessToken();
+        $url=$this->api.$path.'?access_token='.$this->getAccessToken($this->appid);
         if($type){
             if( $data && is_array($data) )
                 $data = json_encode($data,JSON_UNESCAPED_UNICODE);
